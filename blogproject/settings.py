@@ -120,6 +120,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#django会把所有的static文件都复制到STATIC_ROOT文件夹下
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "blogstatic"),
 ]
+
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top']
