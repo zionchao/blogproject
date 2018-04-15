@@ -127,4 +127,4 @@ STATICFILES_DIRS = [
 ]
 
 DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76']
+ALLOWED_HOSTS = ['*','127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76']
