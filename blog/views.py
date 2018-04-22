@@ -15,6 +15,8 @@ from markdown.extensions.toc import TocExtension
 from django.utils.text import slugify
 
 from django.views.generic import ListView,DetailView
+
+from django.views.decorators.csrf import csrf_exempt
 # 获取logger实例，如果参数为空则返回root logger
 logger = logging.getLogger("AppName")
 
@@ -136,20 +138,25 @@ class TagView(ListView):
         tag=get_object_or_404(Tag,pk=self.kwargs.get('pk'))
         return super(TagView,self).get_queryset().filter(tags=tag)
 
-
+#csrf解决办法  https://blog.csdn.net/heatdeath/article/details/69791347
+@csrf_exempt
 def article_post(request):
     if request.method=='POST':
         article_post_form=ArticlePostForm(data=request.POST)
-        print(article_post_form)
+        # print(article_post_form)
         if article_post_form.is_valid():
             cd=article_post_form.cleaned_data
             try:
-                new_article=article_post_form.save(commit=False)
-                # new_article.author=request.user
-                # new_article.column=request.user.article_column.get(id=request.POST['column_id'])
-                new_article.save()
+                print( 'began-----')
+                article_post_form.save()
+                # new_article=article_post_form.save(commit=False)
+                # print(new_article+'-----')
+                # # new_article.author=request.user
+                # # new_article.column=request.user.article_column.get(id=request.POST['column_id'])
+                # new_article.save()
                 return HttpResponse(1)
             except:
+                print('error-----')
                 return HttpResponse(2)
         else:
             return HttpResponse(3)

@@ -6,7 +6,7 @@
 {% block main %}
     <div style="margin-left: 10px">
       <form class="form_horizontal" action="." method="post">
-           {% csrf_token %}
+          {% csrf_token %}
           <div class="row" style="margin-top: 10px;">
               <div class="col-md-2 text-right"><span>标题</span></div>
               <div class="col-md-10 text-left">{{ aritcle_post_form.title }}</div>
@@ -43,7 +43,7 @@
           </div>
 
           <div class="row">
-              <input type="button" class="btn btn-primary btn-lg" value="发布" onclick="publish_article()">
+              <input type="button" class="btn btn-primary btn-lg" value="发布" onclick="publish_article()" />
           </div>
 
       </form>
@@ -51,6 +51,7 @@
     </div>
 
     <script type="text/javascript">
+
          function publish_article() {
              var title=$('#id_title').val()
              var column_name=$('#which_column').val()
@@ -58,8 +59,7 @@
              $.ajax({
                  url:"{% url 'blog:article_post' %}",
                  type:'POST',
-                 data:{'title':title,'body':body,'category':"Test",'tag':'Test','author':'1','create_time':'2018/04/22 21:27',
-                 'modified_time':'2018/04/22 21:27','views':0},
+                 data:{'title':title,'body':body,'category':1,'tag':1,'author':1,'views':0},
                  success:function (e) {
                      if(e=="1"){
                          layer.msg("successful");
@@ -68,7 +68,7 @@
                      }else{
                          layer.msg('项目名称必须写，不能为空。');
                      }
-                 },
+                 }
              });
          }
     </script>

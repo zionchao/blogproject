@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -131,9 +131,9 @@ CKEDITOR_CONFIGS = {
 STATIC_URL = '/static/'
 #django会把所有的static文件都复制到STATIC_ROOT文件夹下
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "blogstatic"),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "blogstatic"),
+]
 
-# DEBUG = False
-# ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']
