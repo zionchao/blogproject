@@ -364,7 +364,7 @@ img {
 .widget-recent-posts ul li::before {
     content: '\f3d3';
     font-family: "Ionicons";
-    position: absolute;
+    position: relative;
     left: -17px;
     top: 3px;
     font-size: 16px;
@@ -387,7 +387,7 @@ img {
 .widget-archives ul li::before {
     content: '\f3f3';
     font-family: "Ionicons";
-    position: absolute;
+    position: relative;
     left: -25px;
     top: 1px;
     font-size: 16px;
@@ -410,7 +410,7 @@ img {
 .widget-category ul li::before {
     content: '\f3fe';
     font-family: "Ionicons";
-    position: absolute;
+    position: relative;
     left: -25px;
     top: 1px;
     font-size: 18px;

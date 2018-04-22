@@ -12,7 +12,7 @@
                     <span class="post-date"><a href="#"><time class="entry-date"
                                                               datetime="2012-11-09T23:15:57+00:00">{{ post.create_time }}</time></a></span>
                     <span class="post-author"><a href="#">{{ post.author }}</a></span>
-                    <span class="comments-link"><a href="#">4 评论</a></span>
+                    <span class="comments-link"><a href="#">{{ post.comment_set.count }}评论</a></span>
                     <span class="views-count"><a href="#">588 阅读</a></span>
                 </div>
             </header>
@@ -23,6 +23,8 @@
                 </div>
             </div>
         </article>
+
+
 
     {% empty %}
         <div class="no-post">暂时还没有发布的文章！</div>
@@ -35,17 +37,18 @@
     </div>
     -->
     <div class="pagination">
-        <ul>
-            <li><a href="">1</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li class="current"><a href="">6</a></li>
-            <li><a href="">7</a></li>
-            <li><a href="">8</a></li>
-            <li><a href="">...</a></li>
-            <li><a href="">11</a></li>
-        </ul>
+        {% if is_paginated %}
+            <div class="pagination-simple">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+                {% endif %}
+            <span class="current">{{ page_obj.number }}页/共{{ paginator.num_pages }}页</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+                {% endif %}
+            </div>
+         {% endif %}
     </div>
+
 {% endblock main %}
 

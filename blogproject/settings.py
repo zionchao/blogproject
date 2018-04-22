@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'blog',
     'comments',
+    'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -115,6 +117,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+CKEDITOR_UPLOAD_PATH = "content"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -122,9 +131,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #django会把所有的static文件都复制到STATIC_ROOT文件夹下
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "blogstatic"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "blogstatic"),
+# ]
 
-DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']
+# DEBUG = False
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']
