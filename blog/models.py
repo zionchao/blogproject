@@ -20,7 +20,7 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    title=models.CharField(max_length=70)
+    title=models.CharField(max_length=70,unique=True)
     body=models.TextField()
     create_time=models.DateTimeField(auto_now_add=True)
     modified_time=models.DateTimeField(auto_now_add=True)

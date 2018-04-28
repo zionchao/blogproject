@@ -1,65 +1,86 @@
-{% extends 'blog/base.html' %}
+{% extends  'blog/base.html'%}
 {% load static %}
-
+{% load blog_tags %}
 <script type="text/javascript" src="{% static 'blog/js/layer.js' %}"></script>
 
 {% block main %}
-    <div style="margin-left: 10px">
       <form class="form_horizontal" action="." method="post">
           {% csrf_token %}
-          <div class="row" style="margin-top: 10px;">
-              <div class="col-md-2 text-right"><span>标题</span></div>
-              <div class="col-md-10 text-left">{{ aritcle_post_form.title }}</div>
-          </div>
-
-          <div class="row" style="margin-top: 10px;">
-              <div class="col-md-2 text-right"><span>分类</span></div>
-              <div class="col-md-10 text-left">
-                  <select id="which_column">
-                      {% for column in article_coloumns %}
-                          <option value="{{ column.name }}">{{ column.name }}</option>
-                      {% endfor %}
-                  </select>
+          <div class="row" style="margin-top: 10px; vertical-align: center">
+              <div class="form-group">
+                <label for="id_title" class="col-md-2 text-right">标题</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="id_title" placeholder="标题">
+                </div>
               </div>
           </div>
 
           <div class="row" style="margin-top: 10px;">
-              <div class="col-md-2 text-right"><span>标签</span></div>
-              <div class="col-md-10 text-left">
+               <label for="id_category" class="col-md-2 text-right">选择列表</label>
+                 <div class="col-sm-3">
+                  <select id="which_column" class="form-control">
+                      {% for column in article_coloumns %}
+                          <option value="{{ column.id }}">{{ column.name }}</option>
+                      {% endfor %}
+                  </select>
+                 </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px;">
+              <label for="id_tags" class="col-md-2 text-right">标签</label>
+              <div class="col-md-10 text-left ">
                   {% for tag in article_tags %}
-                      <label class="checkbox-inline">
-                      <input class="tagcheckbox" type="checkbox" id="{{ tag.id }}" name="article_tag" value="{{ tag.name }}" />
+                      <input type="checkbox" id="{{ tag.id }}" name="article_tag" value="{{ tag.id }}" />
                        {{ tag.name }}
-                      </label>
-                      {% empty %}
-                      <p>You have not type tags for article. Please <a href="{% url 'blog:article_post' %}">input your tags</a> </p>
+                  {% empty %}
+                      You have not type tags for article. Please <a href="{% url 'blog:article_post' %}">input your tags</a>
                   {% endfor %}
               </div>
           </div>
 
-          <div class="row" style="margin-top: 10px;">
-              <div class="col-md-2 text-right"><span>内容</span></div>
-              <textarea class="col-md-10 text-left" id="id_body"></textarea>
+          <div class="form-group">
+              <div class="row" style="margin-top: 10px;">
+                  <label for="id_body" class="col-md-2 text-right">内容</label>
+                  <div class="col-sm-10">
+                  <textarea class="form-control"  rows="30" id="id_body"></textarea>
+                  </div>
+              </div>
           </div>
 
-          <div class="row">
-              <input type="button" class="btn btn-primary btn-lg" value="发布" onclick="publish_article()" />
+         <div class="form-group hidden" >
+               <label for="id_author" class="col-md-2 text-right">用户名：</label>
+                <input id="id_author" name="id_author" />
           </div>
 
+         <div class="form-group hidden" >
+               <label for="id_views" class="col-md-2 text-right">Views：</label>
+                <span id="id_views">0</span>
+          </div>
+
+
+          <div class="form-group">
+              <div class="row" style="margin-top: 10px;">
+                 <input type="button" class="btn btn-primary btn-lg" style="float: right" value="发布" onclick="publish_article()"/>
+              </div>
+              </div>
       </form>
 
-    </div>
-
     <script type="text/javascript">
-
          function publish_article() {
              var title=$('#id_title').val()
-             var column_name=$('#which_column').val()
+             var column_index=$("#which_column").attr("selected","selected").val();
+             var tag=""
+                $.each($('input:checkbox'),function(){
+                    if(this.checked){
+                        tag+=$(this).val()+' ';
+                    }
+                });
+             console.log(tag)
              var body=$('#id_body').val()
              $.ajax({
                  url:"{% url 'blog:article_post' %}",
                  type:'POST',
-                 data:{'title':title,'body':body,'category':1,'tag':1,'author':1,'views':0},
+                 data:{'title':title,'body':body,'category':column_index,'tag':tag,'author':1,'views':0},
                  success:function (e) {
                      if(e=="1"){
                          layer.msg("successful");
@@ -74,5 +95,11 @@
     </script>
 
 
-{% endblock main %}
+{% endblock %}
+
+
+
+
+
+
 

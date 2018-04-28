@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'blog',
     'comments',
-    'ckeditor',
-    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -117,23 +115,23 @@ USE_L10N = True
 
 USE_TZ = True
 
-CKEDITOR_UPLOAD_PATH = "content"
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Full',
-    },
-}
+# CKEDITOR_UPLOAD_PATH = "content"
+#
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': 'Full',
+#     },
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-#django»á°ÑËùÓÐµÄstaticÎÄ¼þ¶¼¸´ÖÆµ½STATIC_ROOTÎÄ¼þ¼ÐÏÂ
+#djangoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½staticï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½STATIC_ROOTï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "blogstatic"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "blogstatic"),
+# ]
 
-DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']
+# DEBUG = False
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost ', '.anniexiao.top','119.123.206.76','118.31.12.50']

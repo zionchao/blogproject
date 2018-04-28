@@ -1,11 +1,9 @@
-from django.shortcuts import render
-
 # Create your views here.
 
 import markdown
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from blog.forms import ArticlePostForm
 from .models import Post,Category,Tag
@@ -17,6 +15,9 @@ from django.utils.text import slugify
 from django.views.generic import ListView,DetailView
 
 from django.views.decorators.csrf import csrf_exempt
+
+from django.shortcuts import render, redirect
+
 # 获取logger实例，如果参数为空则返回root logger
 logger = logging.getLogger("AppName")
 
@@ -27,7 +28,7 @@ class IndexView(ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    paginate_by = 2
+    paginate_by = 5
 
 # def index(request):
 #     post_list=Post.objects.all()
@@ -142,21 +143,20 @@ class TagView(ListView):
 @csrf_exempt
 def article_post(request):
     if request.method=='POST':
-        article_post_form=ArticlePostForm(data=request.POST)
-        # print(article_post_form)
+        article_post_form=ArticlePostForm(request.POST)
+        print(article_post_form)
         if article_post_form.is_valid():
             cd=article_post_form.cleaned_data
             try:
-                print( 'began-----')
                 article_post_form.save()
                 # new_article=article_post_form.save(commit=False)
                 # print(new_article+'-----')
                 # # new_article.author=request.user
                 # # new_article.column=request.user.article_column.get(id=request.POST['column_id'])
                 # new_article.save()
-                return HttpResponse(1)
+                return HttpResponse(1)#跳转到index界面
             except:
-                print('error-----')
+                # print('error-----')
                 return HttpResponse(2)
         else:
             return HttpResponse(3)
@@ -165,5 +165,5 @@ def article_post(request):
         article_columns=Category.objects.all()
         article_tags=Tag.objects.all()
         return render(request,'blog/publish_article.html',{'aritcle_post_form':article_post_form,
-                                                              'article_coloumns':article_columns,
+                                                           'article_coloumns':article_columns,
                                                            'article_tags':article_tags})
