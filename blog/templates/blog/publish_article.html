@@ -1,23 +1,86 @@
-{% extends  'blog/base.html'%}
 {% load static %}
-{% load blog_tags %}
-<script type="text/javascript" src="{% static 'blog/js/layer.js' %}"></script>
 
-{% block main %}
-      <form class="form_horizontal" action="." method="post">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Black &amp; White</title>
+
+
+    <!-- meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static 'blog/css/pace.css'%}">
+    <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/highlights/github.css' %}">
+
+    <!-- js -->
+    <script src="{% static 'blog/js/jquery-1.11.1.min.js'%}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'blog/js/pace.min.js'%}"></script>
+    <script src="{% static 'blog/js/modernizr.custom.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'editor/css/editormd.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+    <header id="site-header">
+        <div class="row">
+            <div class="col-md-4 col-sm-5 col-xs-8">
+                <div class="logo">
+                    <h1><a href="{% url 'blog:index'%}"><b>Black</b> &amp; White</a></h1>
+                </div>
+            </div><!-- col-md-4 -->
+            <div class="col-md-8 col-sm-7 col-xs-4">
+                <nav class="main-nav" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" id="trigger-overlay" class="navbar-toggle">
+                            <span class="ion-navicon"></span>
+                        </button>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="cl-effect-11"><a href="{% url 'blog:index'  %}" data-hover="首页">首页</a></li>
+                            <li class="cl-effect-11"><a href="{% url 'blog:article_post'  %}" data-hover="写">写博客</a></li>
+                            <li class="cl-effect-11"><a href="#" data-hover="关于">关于</a></li>
+                            <li class="cl-effect-11"><a href="#" data-hover="联系">联系</a></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </nav>
+                <div id="header-search-box">
+                    <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>
+                    <div id="search-form" class="search-form">
+                        <form role="search" method="get" id="searchform" action="#">
+                            <input type="search" placeholder="搜索" required>
+                            <button type="submit"><span class="ion-ios-search-strong"></span></button>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- col-md-8 -->
+        </div>
+    </header>
+</div>
+
+     <form class="form_horizontal" action="." method="post">
           {% csrf_token %}
-          <div class="row" style="margin-top: 10px; vertical-align: center">
+
+         <div class="row" style="margin-top: 10px; vertical-align: center">
               <div class="form-group">
                 <label for="id_title" class="col-md-2 text-right">标题</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="id_title" placeholder="标题">
+                  <input type="text" class="form-control" id="id_title" style="width:50%" placeholder="标题">
                 </div>
               </div>
           </div>
 
           <div class="row" style="margin-top: 10px;">
                <label for="id_category" class="col-md-2 text-right">选择列表</label>
-                 <div class="col-sm-3">
+                 <div class="col-sm-1">
                   <select id="which_column" class="form-control">
                       {% for column in article_coloumns %}
                           <option value="{{ column.id }}">{{ column.name }}</option>
@@ -38,35 +101,36 @@
               </div>
           </div>
 
-          <div class="form-group">
+          <div class="row" style="margin-top: 10px;">
+              <label for='id_body' class="col-md-2 text-right">内容</label>
+             <!-- <textarea class="form-control" rows="5" >{{ article_post_form.body }}</textarea>-->
+              <div id='testeditormd'>
+                  <textarea style="display: none;" id="id_body"></textarea>
+              </div>
+          </div>
+
+        <div class="form-group">
               <div class="row" style="margin-top: 10px;">
-                  <label for="id_body" class="col-md-2 text-right">内容</label>
-                  <div class="col-sm-10">
-                  <textarea class="form-control"  rows="30" id="id_body"></textarea>
-                  </div>
+                 <input type="button" class="btn btn-primary btn-lg" style="margin-left:600px;" value="发布" onclick="publish_article()"/>
               </div>
-          </div>
-
-         <div class="form-group hidden" >
-               <label for="id_author" class="col-md-2 text-right">用户名：</label>
-                <input id="id_author" name="id_author" />
-          </div>
-
-         <div class="form-group hidden" >
-               <label for="id_views" class="col-md-2 text-right">Views：</label>
-                <span id="id_views">0</span>
-          </div>
+         </div>
 
 
-          <div class="form-group">
-              <div class="row" style="margin-top: 10px;">
-                 <input type="button" class="btn btn-primary btn-lg" style="float: right" value="发布" onclick="publish_article()"/>
-              </div>
-              </div>
       </form>
-
+     <script type="text/javascript" src="{% static 'editor/editormd.min.js' %}"></script>
+   <script type="text/javascript" src="{% static 'blog/js/jquery-1.11.1.min.js' %}"></script>
     <script type="text/javascript">
-         function publish_article() {
+
+        $(function() {
+            var editor = editormd("testeditormd", {
+                width   : "80%",
+                height   : 640,
+                syncScrolling : 'single',
+                path:  "{% static 'editor/lib/' %}"
+            });
+        });
+
+        function publish_article() {
              var title=$('#id_title').val()
              var column_index=$("#which_column").attr("selected","selected").val();
              var tag=""
@@ -84,6 +148,7 @@
                  success:function (e) {
                      if(e=="1"){
                          layer.msg("successful");
+                         location.href = "{% url 'blog:index' %}";
                      }else if (e=='2'){
                          layer.msg('sorry');
                      }else{
@@ -92,10 +157,11 @@
                  }
              });
          }
-    </script>
 
+</script>
 
-{% endblock %}
+</body>
+</html>
 
 
 
