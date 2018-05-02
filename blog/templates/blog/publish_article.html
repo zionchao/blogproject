@@ -120,6 +120,8 @@
      <script type="text/javascript" src="{% static 'editor/editormd.min.js' %}"></script>
    <script type="text/javascript" src="{% static 'blog/js/jquery-1.11.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'blog/js/layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'blog/js/json2.js' %}"></script>
+
     <script type="text/javascript">
 
         $(function() {
@@ -132,20 +134,19 @@
         });
 
         function publish_article() {
-             var title=$('#id_title').val()
+             var title=$('#id_title').val();
              var column_index=$("#which_column").attr("selected","selected").val();
-             var tag=""
+             var articl_tags=[]
                 $.each($('input:checkbox'),function(){
                     if(this.checked){
-                        tag+=$(this).val()+' ';
+                        articl_tags.push($(this).val());
                     }
                 });
-             console.log(tag)
-             var body=$('#id_body').val()
+             var body=$('#id_body').val();
              $.ajax({
                  url:"{% url 'blog:article_post' %}",
                  type:'POST',
-                 data:{'title':title,'body':body,'category':column_index,'tag':tag,'author':1,'views':0},
+                 data:{'title':title,'body':body,'category':column_index,'tag':JSON.stringify(articl_tags),'author':1,'views':0},
                  success:function (e) {
                      if(e=="1"){
                          layer.msg("successful");

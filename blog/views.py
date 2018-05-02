@@ -18,6 +18,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render, redirect
 
+import json
+
 # 获取logger实例，如果参数为空则返回root logger
 logger = logging.getLogger("AppName")
 
@@ -144,16 +146,21 @@ class TagView(ListView):
 def article_post(request):
     if request.method=='POST':
         article_post_form=ArticlePostForm(request.POST)
-        print(article_post_form)
+        # print(article_post_form)
         if article_post_form.is_valid():
             cd=article_post_form.cleaned_data
             try:
-                article_post_form.save()
+                new_article=article_post_form.save(commit=False)
                 # new_article=article_post_form.save(commit=False)
                 # print(new_article+'-----')
                 # # new_article.author=request.user
                 # # new_article.column=request.user.article_column.get(id=request.POST['column_id'])
-                # new_article.save()
+                new_article.save()
+                tags=request.POST['tag']
+                print(type(new_article))
+                if tags:
+                    for atag in json.loads(tags):
+                        new_article.tags.add(atag)
                 return HttpResponse(1)#跳转到index界面
             except:
                 # print('error-----')
